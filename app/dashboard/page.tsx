@@ -1,35 +1,19 @@
 "use client";
-import React, {Suspense, lazy } from "react";
+import React, { Suspense, lazy } from "react";
 import Loader from "@/shared/customComponents/loader";
 import Transaction from "@/shared/customComponents/transaction";
-import WeeklyActivity from "@/shared/customComponents/weeklyActivity";
 import CardSection from "@/shared/customComponents/customCard";
 import { useRouter } from "next/navigation";
 
 // Lazy load components
-const Sidebar = lazy(() => import("@/shared/customComponents/sidebar"));
-const Header = lazy(() => import("@/shared/customComponents/header"));
 const CreditCard = lazy(() => import("@/shared/customComponents/creditCard"));
+const WeeklyActivity = lazy(
+  () => import("@/shared/customComponents/weeklyActivity")
+);
 
 const Dashboard = () => {
-  // const [isOpen, setIsOpen] = useState(true);
   const router = useRouter();
   return (
-    //   <div className="flex min-h-screen bg-[#F8F9FD] font-sans">
-    //     <Suspense fallback={<Loader />}>
-    //       <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
-    //     </Suspense>
-
-    //     <div
-    //       className={`w-full transition-all duration-300
-    //       ${isOpen ? "lg:ml-64" : "lg:ml-0"}
-    //       ml-0`}
-    //     >
-    //       {/* <Suspense fallback={<Loader />}> */}
-    //       <Header isOpen={isOpen} setIsOpen={setIsOpen} />
-    //       {/* </Suspense> */}
-
-    //       <main className="p-6">
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* Cards Section */}
       <Suspense
@@ -77,7 +61,11 @@ const Dashboard = () => {
           </section>
         }
       >
-        <WeeklyActivity />
+        <CardSection title={"Weekly Activity"}>
+          <div className="w-full">
+            <WeeklyActivity />
+          </div>
+        </CardSection>
       </Suspense>
 
       {/* Quick Transfer */}
@@ -92,7 +80,6 @@ const Dashboard = () => {
               <QuickTransferSection />
             </Suspense> */}
       {/* </div> */}
-      {/* //     </main> */}
     </div>
   );
 };
