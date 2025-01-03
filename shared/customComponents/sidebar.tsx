@@ -31,7 +31,7 @@ const Sidebar = () => {
         <div className="w-5 h-5 bg-black rounded">
           <MdTask size={20}/>
         </div>
-        <div className="text-[#404B7C] text-xl font-extrabold">Soar Task</div>
+        {/* <div className="text-[#404B7C] text-xl font-extrabold">Soar Task</div> */}
       </div>
 
       {/* Navigation */}

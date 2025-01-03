@@ -1,8 +1,9 @@
 import React from "react";
 import CreditCard from "@/shared/customComponents/creditCard";
-import CreditCard2 from "@/shared/customComponents/creditCard2";
 import Header from "@/shared/customComponents/header";
 import Sidebar from "@/shared/customComponents/sidebar";
+import CardSection from "@/shared/customComponents/customCard";
+import { Card } from "@/components/ui/card";
 
 const Dashboard: React.FC = () => {
   return (
@@ -12,12 +13,16 @@ const Dashboard: React.FC = () => {
         <Header />
         <main className="p-6">
           <div className="flex space-x-6">
-            {/* <CardSection title={"My Cards"}> */}
-              <CreditCard />
-              <CreditCard2 />
-            {/* </CardSection> */}
-            {/* <CardSection title={"Recent Transactions"}> */}
-            {/* </CardSection> */}
+            <CardSection title={"My Cards"}>
+              <CreditCard color="black"/>
+              <CreditCard color="white" />
+            </CardSection>
+            <CardSection title={"Recent Transactions"}>
+              <Card>
+                {" "}
+                <>hi</>
+              </Card>
+            </CardSection>
           </div>
         </main>
       </div>
