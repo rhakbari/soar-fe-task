@@ -9,15 +9,13 @@ const CreditCard = ({
 }) => {
   return (
     <div className="font-['Montserrat',sans-serif] text-sm leading-snug">
-      <div className="flex-wrap m-2">
+      <div className="flex-wrap  mr-4">
         <div className="w-[335px] h-[215px] relative">
           <div
             className={`w-full h-full rounded-2xl ${
               color === "black" ? "text-white" : "text-black"
             } shadow-lg bg-gradient-to-r ${
-              color === "black"
-                ? "from-gray-600 to-gray-900"
-                : ""
+              color === "black" ? "from-gray-600 to-gray-900" : ""
             } overflow-hidden`}
           >
             <div className="flex justify-between">

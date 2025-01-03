@@ -4,27 +4,32 @@ interface CardSectionProps {
   title: string;
   children: ReactNode;
   onSeeAllClick?: () => void;
+  backgroundColor?: string;
 }
 
 const CardSection: React.FC<CardSectionProps> = ({
   title,
   children,
   onSeeAllClick,
+  backgroundColor = "bg-white",
 }) => {
   return (
-    <div className="ml-5 m-1 md:m-1 p-1 rounded-lg">
-      <div className="flex items-center justify-between text-gray-700 font-bold text-xl">
-        <div>{title}</div>
-        {onSeeAllClick ? (
-          <div
-            className="text-sm text-black cursor-pointer"
+    <div className="m-5">
+      {/* Header Section */}
+      <div className="flex items-center justify-between text-gray-800 font-bold text-lg mb-4">
+        <h2>{title}</h2>
+        {onSeeAllClick && (
+          <button
+            className="text-sm text-grey-500 hover:underline focus:outline-none"
             onClick={onSeeAllClick}
           >
             See All
-          </div>
-        ) : null}
+          </button>
+        )}
       </div>
-      <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-1">
+
+      {/* Card Section */}
+      <div className={`flex p-4 rounded-lg ${backgroundColor}`}>
         {children}
       </div>
     </div>

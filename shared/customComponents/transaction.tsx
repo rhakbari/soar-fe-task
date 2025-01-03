@@ -1,11 +1,5 @@
 import React from "react";
 import { CreditCard, DollarSign, User } from "lucide-react";
-// import {
-//   Card,
-//   CardHeader,
-//   CardTitle,
-//   CardContent,
-// } from "@/app/components/ui/card";
 
 const TransactionList = () => {
   const transactions = [
@@ -36,38 +30,38 @@ const TransactionList = () => {
   ];
 
   return (
-    // <Card className="w-80">
-    //   <CardHeader>
-    //     <CardTitle className="text-lg font-medium">
-    //       Recent Transaction
-    //     </CardTitle>
-    //   </CardHeader>
-    //   <CardContent>
-        <div className="space-y-4">
-          {transactions.map((transaction) => (
-            <div key={transaction.id} className="flex items-center space-x-4">
-              <div className={`p-2 rounded-full ${transaction.bgColor}`}>
-                {/* <transaction.icon className="w-5 h-5" /> */}
-              </div>
-              <div className="flex-1">
-                <p className="text-sm font-medium text-gray-900">
-                  {transaction.name}
-                </p>
-                <p className="text-xs text-gray-500">{transaction.date}</p>
-              </div>
-              <span
-                className={`text-sm font-medium ${
-                  transaction.amount < 0 ? "text-red-600" : "text-green-600"
-                }`}
-              >
-                {transaction.amount < 0 ? "-" : "+"}$
-                {Math.abs(transaction.amount).toLocaleString()}
-              </span>
-            </div>
-          ))}
+    <div className="w-full p-4 space-y-4">
+      {transactions.map((transaction) => (
+        <div
+          key={transaction.id}
+          className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 border-b pb-3 last:border-none"
+        >
+          {/* Circular Icon */}
+          <div
+            className={`p-5 rounded-full ${transaction.bgColor}`}
+            aria-label={`${transaction.name} icon`}
+          ></div>
+
+          {/* Transaction Details */}
+          <div className="flex-1 mt-3 sm:mt-0">
+            <p className="text-sm font-semibold text-gray-900">
+              {transaction.name}
+            </p>
+            <p className="text-xs text-gray-500">{transaction.date}</p>
+          </div>
+
+          {/* Transaction Amount */}
+          <span
+            className={`text-sm font-medium ${
+              transaction.amount < 0 ? "text-red-600" : "text-green-600"
+            }`}
+          >
+            {transaction.amount < 0 ? "-" : "+"}$
+            {Math.abs(transaction.amount).toLocaleString()}
+          </span>
         </div>
-    //   </CardContent>
-    // </Card>
+      ))}
+    </div>
   );
 };
 

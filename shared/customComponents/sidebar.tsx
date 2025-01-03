@@ -1,60 +1,66 @@
 import React from "react";
-import {
-  FaHome,
-  FaExchangeAlt,
-  FaUser,
-  FaChartBar,
-  FaCreditCard,
-  FaTools,
-  FaStar,
-  FaCog,
-  FaHandHoldingUsd,
-} from "react-icons/fa";
-import { MdTask } from "react-icons/md";
+import { 
+  LayoutDashboard, ArrowLeftRight, User, BarChart3, 
+  CreditCard, Banknote, Settings, Star, Wrench 
+} from "lucide-react";
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen, setIsOpen }: any) => {
   const menuItems = [
-    { icon: <FaHome size={20} />, label: "Dashboard", active: true },
-    { icon: <FaExchangeAlt size={20} />, label: "Transactions" },
-    { icon: <FaUser size={20} />, label: "Accounts" },
-    { icon: <FaChartBar size={20} />, label: "Investments" },
-    { icon: <FaCreditCard size={20} />, label: "Credit Cards" },
-    { icon: <FaHandHoldingUsd size={20} />, label: "Loans" },
-    { icon: <FaTools size={20} />, label: "Services" },
-    { icon: <FaStar size={20} />, label: "My Privileges" },
-    { icon: <FaCog size={20} />, label: "Setting" },
+    { icon: LayoutDashboard, label: "Dashboard", active: true },
+    { icon: ArrowLeftRight, label: "Transactions" },
+    { icon: User, label: "Accounts" },
+    { icon: BarChart3, label: "Investments" },
+    { icon: CreditCard, label: "Credit Cards" },
+    { icon: Banknote, label: "Loans" },
+    { icon: Wrench, label: "Services" },
+    { icon: Star, label: "My Privileges" },
+    { icon: Settings, label: "Setting" },
   ];
-  return (
-    <div className="w-64 bg-white border-r flex flex-col">
-      {/* Logo area */}
-      <div className="p-5 m-1 flex items-center gap-2">
-        <div className="w-5 h-5 bg-black rounded">
-          <MdTask size={20}/>
-        </div>
-        {/* <div className="text-[#404B7C] text-xl font-extrabold">Soar Task</div> */}
-      </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 p-4">
-        {menuItems.map((item, index) => (
-          <div
-            key={index}
-            className={`flex items-center px-4 py-2.5 mb-1 rounded-lg cursor-pointer hover:bg-gray-50 ${
-              item.active ? "text-[#404B7C]" : "text-[#98A2B3]"
-            }`}
-          >
-            <span className="mr-3">{item.icon}</span>
-            <span
-              className={`text-sm ${
-                item.active ? "font-bold" : "font-semibold"
-              }`}
-            >
-              {item.label}
-            </span>
+  return (
+    <>
+      {/* Overlay for mobile */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <div
+        className={`fixed left-0 top-0 h-full bg-white z-50 transition-all duration-300 
+          ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+          lg:w-64 w-64 shadow-xl`}
+      >
+        <div className="p-6 flex items-center gap-3">
+          <div className="w-10 h-10 bg-[#404B7C] rounded-xl flex items-center justify-center">
+            <span className="text-white font-bold text-xl">S</span>
           </div>
-        ))}
-      </nav>
-    </div>
+          <span className="text-[#404B7C] font-bold text-xl">Soar Task</span>
+        </div>
+
+        <nav className="px-4">
+          {menuItems.map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <div
+                key={index}
+                className={`flex items-center px-4 py-3 rounded-xl cursor-pointer mb-2
+                  ${item.active 
+                    ? 'bg-[#F8F9FD] text-[#404B7C]' 
+                    : 'text-gray-400 hover:bg-gray-50'
+                  }`}
+              >
+                <Icon className="h-5 w-5" />
+                <span className="ml-3 font-medium">{item.label}</span>
+              </div>
+            );
+          })}
+        </nav>
+      </div>
+    </>
   );
 };
+
 export default Sidebar;
