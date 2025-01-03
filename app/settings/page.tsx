@@ -1,13 +1,23 @@
+"use client";
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar } from "@/components/ui/avatar";
 import { Label } from "@/components/ui/label";
 import { Pencil } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
 
 const EditProfilePage = () => {
+  const { toast } = useToast();
+  const handleSubmit = () => {
+    toast({
+      title: "Profile Updated",
+      description: "Your changes have been saved successfully.",
+      variant: "default",
+    });
+  };
   return (
     <Card className="min-h-fit rounded-3xl bg-[#fff]">
       <div className="w-full max-w-5xl mx-auto p-6">
@@ -37,8 +47,11 @@ const EditProfilePage = () => {
         <div className="mb-8">
           <div className="relative inline-block">
             <Avatar className="h-24 w-24">
-              <AvatarImage src="/api/placeholder/150/150" alt="Profile" />
-              <AvatarFallback>CR</AvatarFallback>
+              <img
+                src="/pfp_pic.jpeg"
+                alt="Profile"
+                className="w-full h-full object-cover object-top"
+              />
             </Avatar>
             <Button
               variant="outline"
@@ -110,10 +123,7 @@ const EditProfilePage = () => {
           </div>
 
           <div>
-            <Label 
-              htmlFor="dob" 
-              className="text-sm text-gray-600 mb-1.5 block"
-            >
+            <Label htmlFor="dob" className="text-sm text-gray-600 mb-1.5 block">
               Date of Birth
             </Label>
             <Input
@@ -195,7 +205,9 @@ const EditProfilePage = () => {
         </div>
 
         <div className="mt-8 flex justify-end">
-          <Button className="px-8 bg-black hover:bg-black/90 rounded-full">Save</Button>
+          <Button variant="default" onClick={() => handleSubmit()}>
+            Save
+          </Button>
         </div>
       </div>
     </Card>

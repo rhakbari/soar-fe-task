@@ -14,13 +14,12 @@ const CardSection: React.FC<CardSectionProps> = ({
   backgroundColor = "bg-white",
 }) => {
   return (
-    <div className="m-5">
-      {/* Header Section */}
-      <div className="flex items-center justify-between text-gray-800 font-bold text-lg mb-4">
-        <h2>{title}</h2>
+    <div className="p-4">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-gray-800 font-bold text-lg">{title}</h2>
         {onSeeAllClick && (
           <button
-            className="text-sm text-grey-500 hover:underline focus:outline-none"
+            className="text-sm text-gray-500 hover:underline focus:outline-none"
             onClick={onSeeAllClick}
           >
             See All
@@ -28,8 +27,7 @@ const CardSection: React.FC<CardSectionProps> = ({
         )}
       </div>
 
-      {/* Card Section */}
-      <div className={`flex p-4 rounded-lg ${backgroundColor}`}>
+      <div className={`w-full p-4 rounded-lg ${backgroundColor}`}>
         {children}
       </div>
     </div>
