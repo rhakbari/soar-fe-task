@@ -11,8 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { Github, Mail, Rocket } from "lucide-react";
+import { Rocket } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
@@ -23,7 +22,7 @@ const LoginPage = () => {
   const [errors, setErrors] = useState({
     email: "",
     password: "",
-    general: ""
+    general: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -31,7 +30,7 @@ const LoginPage = () => {
     const newErrors = {
       email: "",
       password: "",
-      general: ""
+      general: "",
     };
 
     if (!email) {
@@ -60,15 +59,13 @@ const LoginPage = () => {
     }
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // If login is successful, navigate to dashboard
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       router.push("/dashboard");
     } catch (error) {
+      console.log("error login =>", error);
       setErrors({
         ...errors,
-        general: "Failed to sign in. Please check your credentials."
+        general: "Failed to sign in. Please check your credentials.",
       });
     } finally {
       setIsSubmitting(false);
@@ -131,7 +128,8 @@ const LoginPage = () => {
                     value={password}
                     onChange={(e) => {
                       setPassword(e.target.value);
-                      if (errors.password) setErrors({ ...errors, password: "" });
+                      if (errors.password)
+                        setErrors({ ...errors, password: "" });
                     }}
                     className={errors.password ? "border-red-500" : ""}
                     required
@@ -151,7 +149,7 @@ const LoginPage = () => {
             </CardContent>
             <CardFooter className="flex flex-wrap items-center justify-between gap-2">
               <div className="text-sm text-muted-foreground">
-                <span>Don't have an account? </span>
+                <span>Don&apos;t have an account? </span>
                 <Button
                   variant="link"
                   className="p-0 h-auto"
