@@ -23,10 +23,18 @@ ChartJS.register(
   Legend
 );
 
-// Define interfaces for your data structure
-interface ActivityData {
-  deposit: number;
-  withdraw: number;
+// Define interfaces for API response
+interface ApiResponse {
+  labels: string[];
+  datasets: {
+    label: string;
+    data: number[];
+    backgroundColor: string;
+    borderColor: string;
+    borderWidth: number;
+    borderRadius: number;
+    borderSkipped: boolean;
+  }[];
 }
 
 const WeeklyActivityChart = () => {
@@ -35,45 +43,51 @@ const WeeklyActivityChart = () => {
     number[],
     string
   > | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const chartRef = useRef<ChartJS<"bar">>(null);
 
   useEffect(() => {
-    const randomHeights: ActivityData[] = [30, 60, 40, 70, 30, 50, 60].map(
-      (height) => ({
-        deposit: height,
-        withdraw: Math.floor(Math.random() * 100),
-      })
-    );
+    const fetchActivityData = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/weekly-activity`);
+        if (!response.ok) { 
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data: ApiResponse = await response.json();
+        setChartData(data);
+      } catch (err) {
+        console.error('Failed to fetch activity data:', err);
+        setError(err instanceof Error ? err.message : 'Failed to fetch data');
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    setChartData({
-      labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-      datasets: [
-        {
-          label: "Deposits",
-          data: randomHeights.map((item) => item.deposit),
-          backgroundColor: "rgba(0, 0, 0, 1)",
-          borderColor: "rgba(0, 0, 0, 1)",
-          borderWidth: 2,
-          borderRadius: Number.MAX_VALUE,
-          borderSkipped: false,
-        },
-        {
-          label: "Withdrawals",
-          data: randomHeights.map((item) => item.withdraw),
-          backgroundColor: "#396AFF",
-          borderColor: "#396AFF",
-          borderWidth: 2,
-          borderRadius: Number.MAX_VALUE,
-          borderSkipped: false,
-        },
-      ],
-    });
+    fetchActivityData();
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className="h-full flex items-center justify-center">
+        <Loader />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="h-full flex items-center justify-center text-red-500">
+        Error: {error}
+      </div>
+    );
+  }
 
   if (!chartData) {
     return (
       <div className="h-full flex items-center justify-center">
-        <Loader />
+        No data available
       </div>
     );
   }
@@ -82,10 +96,6 @@ const WeeklyActivityChart = () => {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      title: {
-        display: true,
-        text: "Weekly Activity",
-      },
       tooltip: {
         callbacks: {
           label: (tooltipItem) =>
