@@ -76,7 +76,6 @@ const ProfileAvatar = memo(() => (
 
 ProfileAvatar.displayName = 'ProfileAvatar';
 
-// Validation Rules
 const validationRules = {
   name: (value: string) => !value.trim() ? "Name is required" : value.length < 2 ? "Name must be at least 2 characters" : "",
   username: (value: string) => !value.trim() ? "Username is required" : value.length < 3 ? "Username must be at least 3 characters" : "",
@@ -95,7 +94,6 @@ const EditProfilePage = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  // Initial form data
   const [formData, setFormData] = useState<FormData>({
     name: "Charlene Reed",
     username: "Charlene Reed",
@@ -154,6 +152,8 @@ const EditProfilePage = () => {
           variant: "default",
         });
       } catch (error) {
+        console.error('error on saving settings => ',error)
+
         toast({
           title: "Error",
           description: "Failed to update profile. Please try again.",

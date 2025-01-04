@@ -53,6 +53,7 @@ const QuickTransfer = () => {
       // Optionally reset the amount or perform other actions
       // setAmount("");
     } catch (error) {
+      console.error('error on quick transfer => ',error)
       toast({
         title: "Transfer Failed",
         description: "Unable to complete the transfer. Please try again.",
