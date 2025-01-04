@@ -11,8 +11,10 @@ import {
   Title,
   Tooltip,
   Legend,
+  ChartData,
 } from "chart.js";
 
+// Registering the necessary components for Chart.js
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -23,8 +25,18 @@ ChartJS.register(
   Legend
 );
 
-const CurveLineChart = () => {
-  const [data, setData] = useState<any>(null); 
+interface CurveLineChartData extends ChartData {
+  labels: string[];  // Assuming labels are strings
+  datasets: {
+    label: string;
+    data: number[];
+    borderColor: string;
+    backgroundColor: string;
+  }[];
+}
+
+const BalanceHistory = () => {
+  const [data, setData] = useState<CurveLineChartData | null>(null); 
 
   useEffect(() => {
     const fetchCurveLineData = async () => {
@@ -75,4 +87,4 @@ const CurveLineChart = () => {
   );
 };
 
-export default CurveLineChart;
+export default BalanceHistory;

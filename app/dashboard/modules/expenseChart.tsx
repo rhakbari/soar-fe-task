@@ -3,11 +3,21 @@
 import React, { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
+import { ChartData } from 'chart.js';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+interface ExpenseChartData extends ChartData {
+  labels: string[];  // Assuming the labels are strings
+  datasets: {
+    data: number[];
+    backgroundColor: string[];
+    hoverBackgroundColor: string[];
+  }[];
+}
+
 const ExpenseChart = () => {
-  const [data, setData] = useState<any>(null); // Use a state to store the fetched data
+  const [data, setData] = useState<ExpenseChartData | null>(null); 
 
   useEffect(() => {
     const fetchExpenseData = async () => {
@@ -45,7 +55,6 @@ const ExpenseChart = () => {
 
   return (
     <div className="w-full h-full">
-      {/* Ensures the chart dynamically fits the parent container */}
       <Pie data={data} options={options} />
     </div>
   );
