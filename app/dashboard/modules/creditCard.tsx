@@ -1,15 +1,19 @@
+'use client';
+
 import React from "react";
 
-const CreditCard = ({
-  cardNumber = "3778 **** **** 1234",
-  expiry = "12/22",
-  balance = 5756,
-  cardHolder = "Eddy Cusuma",
-  color = "black",
-}) => {
+interface CreditCardData {
+  cardNumber: string;
+  expiry: string;
+  balance: string;
+  cardHolder: string;
+  color: string;
+}
+
+const CreditCard = ({ cardNumber, expiry, balance, cardHolder, color }: CreditCardData) => {
   return (
     <div className="font-['Montserrat',sans-serif] text-sm leading-snug">
-      <div className="flex-wrap  mr-4">
+      <div className="flex-wrap mr-4">
         <div className="w-[335px] h-[215px] relative">
           <div
             className={`w-full h-full rounded-2xl ${
@@ -44,7 +48,7 @@ const CreditCard = ({
                 <div>
                   <div
                     className={`text-xs${
-                      color == "black" ? "text-white/80" : "text-black/80"
+                      color === "black" ? "text-white/80" : "text-black/80"
                     } mb-1`}
                   >
                     CARD HOLDER
@@ -54,7 +58,7 @@ const CreditCard = ({
                 <div>
                   <div
                     className={`text-xs${
-                      color == "black" ? "text-white/80" : "text-black/80"
+                      color === "black" ? "text-white/80" : "text-black/80"
                     } mb-1`}
                   >
                     VALID TILL

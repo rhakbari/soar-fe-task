@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -9,8 +11,10 @@ import {
   Title,
   Tooltip,
   Legend,
+  ChartData,
 } from "chart.js";
 
+// Registering the necessary components for Chart.js
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -21,25 +25,39 @@ ChartJS.register(
   Legend
 );
 
-const CurveLineChart = () => {
-  const data = {
-    labels: ["Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan"],
-    datasets: [
-      {
-        label: "Balance",
-        data: [0, 190, 300, 500, 440, 800, 600, 550],
-        fill: true,
-        tension: 0.4,
-        borderColor: "#1814F3",
-        backgroundColor: "rgba(24, 20, 243, 0.2)",
-        shadowColor: "rgba(24, 20, 243, 0.5)",
-        shadowBlur: 10,
-        shadowOffsetX: 2,
-        shadowOffsetY: 5,
-        borderWidth: 4,
-      },
-    ],
-  };
+interface CurveLineChartData extends ChartData {
+  labels: string[];  // Assuming labels are strings
+  datasets: {
+    label: string;
+    data: number[];
+    borderColor: string;
+    backgroundColor: string;
+  }[];
+}
+
+const BalanceHistory = () => {
+  const [data, setData] = useState<CurveLineChartData | null>(null); 
+
+  useEffect(() => {
+    const fetchCurveLineData = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_ENDPOINT}/balance-history`
+        );
+
+        const data = await response.json();
+        setData(data); // Set the fetched data into state
+      } catch (error) {
+        console.error("Error fetching curve line data:", error);
+      }
+    };
+
+    fetchCurveLineData();
+  }, []);
+
+  if (!data) {
+    return <div>Loading...</div>;
+  }
 
   const options = {
     responsive: true,
@@ -69,4 +87,4 @@ const CurveLineChart = () => {
   );
 };
 
-export default CurveLineChart;
+export default BalanceHistory;
