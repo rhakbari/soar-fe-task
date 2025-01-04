@@ -10,7 +10,7 @@ import {
   Star,
   Wrench,
 } from "lucide-react";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 
@@ -18,15 +18,15 @@ const Sidebar = ({ isOpen, setIsOpen }: any) => {
   const router = useRouter();
   const pathname = usePathname();
   const menuItems = [
-    { icon: LayoutDashboard, label: "Dashboard", path: '/dashboard' },
-    { icon: ArrowLeftRight, label: "Transactions", path: '/transactions' },
-    { icon: User, label: "Accounts", path: '/accounts' },
-    { icon: BarChart3, label: "Investments", path: '/investments' },
-    { icon: CreditCard, label: "Credit Cards", path: '/creditCards' },
-    { icon: Banknote, label: "Loans", path: '/loans' },
-    { icon: Wrench, label: "Services", path: '/services' },
-    { icon: Star, label: "My Privileges", path: '/privilages' },
-    { icon: Settings, label: "Settings", path: '/settings' },
+    { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
+    { icon: ArrowLeftRight, label: "Transactions", path: "/transactions" },
+    { icon: User, label: "Accounts", path: "/accounts" },
+    { icon: BarChart3, label: "Investments", path: "/investments" },
+    { icon: CreditCard, label: "Credit Cards", path: "/creditCards" },
+    { icon: Banknote, label: "Loans", path: "/loans" },
+    { icon: Wrench, label: "Services", path: "/services" },
+    { icon: Star, label: "My Privileges", path: "/privilages" },
+    { icon: Settings, label: "Settings", path: "/settings" },
   ];
 
   const handleNavigation = (path: string) => {
@@ -66,10 +66,12 @@ const Sidebar = ({ isOpen, setIsOpen }: any) => {
         >
           <div className="p-6 flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl flex items-center justify-center">
-            <Image
+              <Image
                 src="/icons/task-fill-icon.svg"
                 alt="Soar-icon"
                 className="w-full h-full object-cover object-top"
+                width={30}
+                height={30}
               />
             </div>
             <span className="text-[#404B7C] font-bold text-xl">Soar Task</span>
@@ -82,7 +84,11 @@ const Sidebar = ({ isOpen, setIsOpen }: any) => {
                 <div
                   key={index}
                   className={`flex items-center px-4 py-3 rounded-xl cursor-pointer mb-2
-                  ${pathname === item.path ? "bg-[#F8F9FD] text-[#404B7C]" : "text-gray-400 hover:bg-gray-50"}`}
+                  ${
+                    pathname === item.path
+                      ? "bg-[#F8F9FD] text-[#404B7C]"
+                      : "text-gray-400 hover:bg-gray-50"
+                  }`}
                   onClick={() => handleNavigation(item.path)}
                 >
                   <Icon className="h-5 w-5" />

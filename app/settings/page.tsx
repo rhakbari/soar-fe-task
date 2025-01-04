@@ -51,6 +51,8 @@ const EditProfilePage = () => {
                 src="/pfp_pic.jpeg"
                 alt="Profile"
                 className="w-full h-full object-cover object-top"
+                width={20}
+                height={20}
               />
             </Avatar>
             <Button

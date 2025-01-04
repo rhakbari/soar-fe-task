@@ -70,6 +70,8 @@ const Header: React.FC<HeaderProps> = ({ isOpen, setIsOpen }) => {
                 src="/pfp_pic.jpeg"
                 alt="Profile"
                 className="w-full h-full object-cover object-top"
+                width={100}
+                height={100}
               />
             </div>
           </div>
