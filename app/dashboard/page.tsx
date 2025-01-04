@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense, lazy } from "react";
+import React, { Suspense, lazy, useEffect, useState } from "react";
 import Transaction from "@/app/dashboard/modules/transaction";
 import CardSection from "@/shared/customComponents/customCard";
 import { useRouter } from "next/navigation";
@@ -19,8 +19,38 @@ const LoadingSkeleton = () => (
   </section>
 );
 
+interface CreditCardData {
+  cardNumber: string;
+  expiry: string;
+  balance: string;
+  cardHolder: string;
+  color: string;
+}
+
 const Dashboard = () => {
   const router = useRouter();
+  const [cardData, setCardData] = useState<CreditCardData[]>([]); 
+
+  useEffect(() => {
+    const fetchCardData = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_ENDPOINT}/credit-card`
+        );
+        const data = await response.json();
+        setCardData(data); // Set the fetched data into state
+      } catch (error) {
+        console.error("Error fetching credit card data:", error);
+      }
+    };
+
+    fetchCardData();
+  }, []);
+
+  // If the data is not yet fetched, render a loading state
+  if (!cardData) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="container mx-auto p-6 bg-[#F5F7FD] rounded-xl">
@@ -34,12 +64,17 @@ const Dashboard = () => {
               onSeeAllClick={() => router.push("/creditCards")}
             >
               <div className="flex flex-col sm:flex-row gap-4">
-                <div className="w-full sm:w-1/2">
-                  <CreditCard color="black" />
-                </div>
-                <div className="w-full sm:w-1/2">
-                  <CreditCard color="transparent" />
-                </div>
+                {cardData.map((item: CreditCardData, id: number) => (
+                  <div key={id} className="w-full sm:w-1/2">
+                    <CreditCard
+                      cardNumber={item.cardNumber}
+                      expiry={item.expiry}
+                      balance={item.balance}
+                      cardHolder={item.cardHolder}
+                      color={item.color}
+                    />
+                  </div>
+                ))}
               </div>
             </CardSection>
           </Suspense>
@@ -89,7 +124,7 @@ const Dashboard = () => {
           <Suspense fallback={<LoadingSkeleton />}>
             <CardSection title="Balance History">
               <div className="h-44">
-                <BalanceHistory/>
+                <BalanceHistory />
               </div>
             </CardSection>
           </Suspense>

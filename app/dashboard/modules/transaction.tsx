@@ -1,6 +1,7 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
+
 interface Transaction {
   id: number;
   name: string;
@@ -11,32 +12,21 @@ interface Transaction {
 }
 
 const TransactionList = () => {
-  const transactions: Transaction[] = [
-    {
-      id: 1,
-      name: "Deposit from my Card",
-      date: "28 January 2021",
-      amount: -850,
-      icon: "/icons/recentTransaction/creditcards_icon.svg",
-      bgColor: "bg-orange-50",
-    },
-    {
-      id: 2,
-      name: "Deposit Paypal",
-      date: "25 January 2021",
-      amount: 2500,
-      icon: "/icons/recentTransaction/ipaypal_icon.svg",
-      bgColor: "bg-blue-50",
-    },
-    {
-      id: 3,
-      name: "Jemi Wilson",
-      date: "21 January 2021",
-      amount: 5400,
-      icon: "/icons/recentTransaction/dollar_icon.svg",
-      bgColor: "bg-cyan-50",
-    },
-  ];
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/transactions`);
+        const data = await response.json();
+        setTransactions(data);
+      } catch (error) {
+        console.error("Error fetching transactions:", error);
+      }
+    };
+
+    fetchTransactions();
+  }, []);
 
   const renderIcon = (transaction: Transaction) => {
     if (typeof transaction.icon === "string") {

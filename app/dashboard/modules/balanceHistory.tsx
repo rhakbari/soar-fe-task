@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -22,24 +24,28 @@ ChartJS.register(
 );
 
 const CurveLineChart = () => {
-  const data = {
-    labels: ["Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan"],
-    datasets: [
-      {
-        label: "Balance",
-        data: [0, 190, 300, 500, 440, 800, 600, 550],
-        fill: true,
-        tension: 0.4,
-        borderColor: "#1814F3",
-        backgroundColor: "rgba(24, 20, 243, 0.2)",
-        shadowColor: "rgba(24, 20, 243, 0.5)",
-        shadowBlur: 10,
-        shadowOffsetX: 2,
-        shadowOffsetY: 5,
-        borderWidth: 4,
-      },
-    ],
-  };
+  const [data, setData] = useState<any>(null); 
+
+  useEffect(() => {
+    const fetchCurveLineData = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_ENDPOINT}/balance-history`
+        );
+
+        const data = await response.json();
+        setData(data); // Set the fetched data into state
+      } catch (error) {
+        console.error("Error fetching curve line data:", error);
+      }
+    };
+
+    fetchCurveLineData();
+  }, []);
+
+  if (!data) {
+    return <div>Loading...</div>;
+  }
 
   const options = {
     responsive: true,
