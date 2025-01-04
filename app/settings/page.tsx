@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Pencil } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-
+import Image from 'next/image'
 const EditProfilePage = () => {
   const { toast } = useToast();
   const handleSubmit = () => {
@@ -47,7 +47,7 @@ const EditProfilePage = () => {
         <div className="mb-8">
           <div className="relative inline-block">
             <Avatar className="h-24 w-24">
-              <img
+              <Image
                 src="/pfp_pic.jpeg"
                 alt="Profile"
                 className="w-full h-full object-cover object-top"

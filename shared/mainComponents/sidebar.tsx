@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation"; 
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 const Sidebar = ({ isOpen, setIsOpen }: any) => {
   const router = useRouter();
@@ -54,9 +55,9 @@ const Sidebar = ({ isOpen, setIsOpen }: any) => {
       >
         <div className="p-6 flex items-center gap-3">
           <div className="w-10 h-10 bg-[#404B7C] rounded-xl flex items-center justify-center">
-            <span className="text-white font-bold text-xl">S</span>
+            <span className="text-white font-bold text-xl">Soar Task</span>
           </div>
-          <span className="text-[#404B7C] font-bold text-xl">S-T</span>
+          <span className="text-[#404B7C] font-bold text-xl">Soar Task</span>
         </div>
         <div
           className={`fixed left-0 top-0 h-full bg-white z-50 transition-all duration-300 
@@ -64,10 +65,14 @@ const Sidebar = ({ isOpen, setIsOpen }: any) => {
           lg:w-64 w-64 shadow-xl`}
         >
           <div className="p-6 flex items-center gap-3">
-            <div className="w-10 h-10 bg-[#404B7C] rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-xl">S</span>
+            <div className="w-8 h-8 rounded-xl flex items-center justify-center">
+            <Image
+                src="/icons/task-fill-icon.svg"
+                alt="Soar-icon"
+                className="w-full h-full object-cover object-top"
+              />
             </div>
-            <span className="text-[#404B7C] font-bold text-xl">S-T</span>
+            <span className="text-[#404B7C] font-bold text-xl">Soar Task</span>
           </div>
 
           <nav className="px-4">

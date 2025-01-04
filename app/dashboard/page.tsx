@@ -1,13 +1,14 @@
 "use client";
-import React, { Suspense, lazy, ReactNode } from "react";
-import Loader from "@/shared/customComponents/loader";
-import Transaction from "@/shared/customComponents/transaction";
+import React, { Suspense, lazy } from "react";
+import Transaction from "@/app/dashboard/modules/transaction";
 import CardSection from "@/shared/customComponents/customCard";
 import { useRouter } from "next/navigation";
-import ExpenseChart from "@/shared/customComponents/expenseChart";
+import ExpenseChart from "@/app/dashboard/modules/expenseChart";
 
-const CreditCard = lazy(() => import("@/shared/customComponents/creditCard"));
-const WeeklyActivity = lazy(() => import("@/shared/customComponents/weeklyActivity"));
+const CreditCard = lazy(() => import("@/app/dashboard/modules/creditCard"));
+const WeeklyActivity = lazy(
+  () => import("@/app/dashboard/modules/weeklyActivity")
+);
 
 const LoadingSkeleton = () => (
   <section className="bg-white rounded-xl p-6 h-full animate-pulse">
@@ -22,7 +23,7 @@ const Dashboard = () => {
   return (
     <div className="container mx-auto p-4">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <Suspense fallback={<LoadingSkeleton />}>
+        <Suspense fallback={<LoadingSkeleton />}>
           <CardSection
             title="My Cards"
             backgroundColor="bg-transparent"

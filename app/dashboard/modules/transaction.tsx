@@ -1,9 +1,18 @@
 import React from "react";
-import { CreditCard, DollarSign, User } from "lucide-react";
 import Image from "next/image";
 
+// Define the transaction interface
+interface Transaction {
+  id: number;
+  name: string;
+  date: string;
+  amount: number;
+  icon: string;
+  bgColor: string;
+}
+
 const TransactionList = () => {
-  const transactions = [
+  const transactions: Transaction[] = [
     {
       id: 1,
       name: "Deposit from my Card",
@@ -30,7 +39,7 @@ const TransactionList = () => {
     },
   ];
 
-  const renderIcon = (transaction: any) => {
+  const renderIcon = (transaction: Transaction) => {
     if (typeof transaction.icon === 'string') {
       return <Image src={transaction.icon} alt="" width={24} height={24} />;
     }

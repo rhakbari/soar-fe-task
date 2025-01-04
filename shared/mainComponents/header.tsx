@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Search, Bell, Settings, Menu } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface HeaderProps {
   isOpen: boolean;
@@ -65,7 +66,7 @@ const Header: React.FC<HeaderProps> = ({ isOpen, setIsOpen }) => {
               <Search className="h-5 w-5 text-gray-400" />
             </button>
             <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
-              <img
+              <Image
                 src="/pfp_pic.jpeg"
                 alt="Profile"
                 className="w-full h-full object-cover object-top"
