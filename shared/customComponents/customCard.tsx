@@ -5,6 +5,7 @@ interface CardSectionProps {
   children: ReactNode;
   onSeeAllClick?: () => void;
   backgroundColor?: string;
+  width?: string;
 }
 
 const CardSection: React.FC<CardSectionProps> = ({
@@ -12,9 +13,10 @@ const CardSection: React.FC<CardSectionProps> = ({
   children,
   onSeeAllClick,
   backgroundColor = "bg-white",
+  width,
 }) => {
   return (
-    <div className="p-4">
+    <div>
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-gray-800 font-bold text-lg">{title}</h2>
         {onSeeAllClick && (
@@ -27,7 +29,11 @@ const CardSection: React.FC<CardSectionProps> = ({
         )}
       </div>
 
-      <div className={`w-full p-4 rounded-lg ${backgroundColor}`}>
+      <div
+        className={`${
+          width ? width : "w-full"
+        } p-4 rounded-3xl ${backgroundColor}`}
+      >
         {children}
       </div>
     </div>

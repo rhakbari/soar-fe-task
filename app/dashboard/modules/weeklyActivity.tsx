@@ -9,11 +9,19 @@ import {
   BarElement,
   Title,
   ChartData,
-  ChartOptions
-} from 'chart.js'
-import { Bar } from 'react-chartjs-2';
+  ChartOptions,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
+import Loader from "@/shared/mainComponents/loader";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 // Define interfaces for your data structure
 interface ActivityData {
@@ -22,15 +30,20 @@ interface ActivityData {
 }
 
 const WeeklyActivityChart = () => {
-  const [chartData, setChartData] = useState<ChartData<'bar', number[], string> | null>(null);
-  const chartRef = useRef<ChartJS<'bar'>>(null);
+  const [chartData, setChartData] = useState<ChartData<
+    "bar",
+    number[],
+    string
+  > | null>(null);
+  const chartRef = useRef<ChartJS<"bar">>(null);
 
   useEffect(() => {
-    // Generate random heights only on client side
-    const randomHeights: ActivityData[] = [30, 60, 40, 70, 30, 50, 60].map((height) => ({
-      deposit: height,
-      withdraw: Math.floor(Math.random() * 100),
-    }));
+    const randomHeights: ActivityData[] = [30, 60, 40, 70, 30, 50, 60].map(
+      (height) => ({
+        deposit: height,
+        withdraw: Math.floor(Math.random() * 100),
+      })
+    );
 
     setChartData({
       labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
@@ -38,7 +51,7 @@ const WeeklyActivityChart = () => {
         {
           label: "Deposits",
           data: randomHeights.map((item) => item.deposit),
-          backgroundColor: "rgba(0, 0, 0, 1)", 
+          backgroundColor: "rgba(0, 0, 0, 1)",
           borderColor: "rgba(0, 0, 0, 1)",
           borderWidth: 2,
           borderRadius: Number.MAX_VALUE,
@@ -47,7 +60,7 @@ const WeeklyActivityChart = () => {
         {
           label: "Withdrawals",
           data: randomHeights.map((item) => item.withdraw),
-          backgroundColor: "#396AFF", 
+          backgroundColor: "#396AFF",
           borderColor: "#396AFF",
           borderWidth: 2,
           borderRadius: Number.MAX_VALUE,
@@ -60,13 +73,14 @@ const WeeklyActivityChart = () => {
   if (!chartData) {
     return (
       <div className="h-full flex items-center justify-center">
-        <span>Loading Chart...</span>
+        <Loader />
       </div>
     );
   }
 
-  const options: ChartOptions<'bar'> = {
+  const options: ChartOptions<"bar"> = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       title: {
         display: true,
@@ -74,7 +88,8 @@ const WeeklyActivityChart = () => {
       },
       tooltip: {
         callbacks: {
-          label: (tooltipItem) => `${tooltipItem.dataset.label}: ${tooltipItem.raw}%`,
+          label: (tooltipItem) =>
+            `${tooltipItem.dataset.label}: ${tooltipItem.raw}%`,
         },
       },
     },
@@ -90,12 +105,8 @@ const WeeklyActivityChart = () => {
   };
 
   return (
-    <div className="h-full p-4">
-      <Bar
-        ref={chartRef}
-        data={chartData}
-        options={options}
-      />
+    <div className="w-full h-full">
+      <Bar ref={chartRef} data={chartData} options={options} />
     </div>
   );
 };
