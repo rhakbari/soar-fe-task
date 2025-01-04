@@ -22,7 +22,7 @@ const LoginPage = () => {
   const [errors, setErrors] = useState({
     email: "",
     password: "",
-    general: "",
+    general: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -30,7 +30,7 @@ const LoginPage = () => {
     const newErrors = {
       email: "",
       password: "",
-      general: "",
+      general: ""
     };
 
     if (!email) {
@@ -128,8 +128,7 @@ const LoginPage = () => {
                     value={password}
                     onChange={(e) => {
                       setPassword(e.target.value);
-                      if (errors.password)
-                        setErrors({ ...errors, password: "" });
+                      if (errors.password) setErrors({ ...errors, password: "" });
                     }}
                     className={errors.password ? "border-red-500" : ""}
                     required
@@ -149,7 +148,7 @@ const LoginPage = () => {
             </CardContent>
             <CardFooter className="flex flex-wrap items-center justify-between gap-2">
               <div className="text-sm text-muted-foreground">
-                <span>Don&apos;t have an account? </span>
+                <span>Don't have an account? </span>
                 <Button
                   variant="link"
                   className="p-0 h-auto"
