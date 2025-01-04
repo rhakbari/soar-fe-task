@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { ChevronRight, Send } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
+import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
 
 const QuickTransfer = () => {
+  const { toast } = useToast();
+  const [amount, setAmount] = useState("525.50");
+  const [isLoading, setIsLoading] = useState(false);
+
   const recipients = [
     {
       name: "Livia\nBator",
@@ -24,6 +29,40 @@ const QuickTransfer = () => {
     },
   ];
 
+  const handleSend = async () => {
+    if (!amount || isNaN(Number(amount))) {
+      toast({
+        title: "Invalid Amount",
+        description: "Please enter a valid amount",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      toast({
+        title: "Transfer Successful",
+        description: `$${amount} has been sent successfully`,
+        variant: "default",
+      });
+      
+      // Optionally reset the amount or perform other actions
+      // setAmount("");
+    } catch (error) {
+      toast({
+        title: "Transfer Failed",
+        description: "Unable to complete the transfer. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       <div className="justify-center w-full mb-8">
@@ -34,7 +73,7 @@ const QuickTransfer = () => {
                 <Image src={recipient.initials} width={100} height={100} alt={"avatar"}/>
               </Avatar>
               <div className="justify-between flex flex-col items-center text-center">
-                <span className="justify-between  text-sm font-medium">{recipient.name}</span>
+                <span className="justify-between text-sm font-medium">{recipient.name}</span>
                 <span className="justify-between text-sm text-[#718EBF] mt-0.5">
                   {recipient.role}
                 </span>
@@ -53,12 +92,17 @@ const QuickTransfer = () => {
         <div className="relative">
           <Input
             type="text"
-            defaultValue="525.50"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
             className="h-10 w-30 bg-[#F5F7FD] border-none rounded-full px-4 text-sm relative z-0"
           />
-          <Button className="bg-black text-white rounded-full px-5 h-10 flex items-center absolute top-1/2 right-[-20px] transform -translate-y-1/2 z-10">
-            Send
-            <Send className="ml-2 h-4 w-4" />
+          <Button 
+            onClick={handleSend} 
+            disabled={isLoading}
+            className="bg-black text-white rounded-full px-5 h-10 flex items-center absolute top-1/2 right-[-20px] transform -translate-y-1/2 z-10 disabled:opacity-70"
+          >
+            {isLoading ? "Sending..." : "Send"}
+            {!isLoading && <Send className="ml-2 h-4 w-4" />}
           </Button>
         </div>
       </div>
