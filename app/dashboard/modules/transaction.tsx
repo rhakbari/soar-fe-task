@@ -1,8 +1,6 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-
-// Define the transaction interface
 interface Transaction {
   id: number;
   name: string;
@@ -19,7 +17,7 @@ const TransactionList = () => {
       name: "Deposit from my Card",
       date: "28 January 2021",
       amount: -850,
-      icon: "/icons/creditcards_icon.svg",
+      icon: "/icons/recentTransaction/creditcards_icon.svg",
       bgColor: "bg-orange-50",
     },
     {
@@ -27,7 +25,7 @@ const TransactionList = () => {
       name: "Deposit Paypal",
       date: "25 January 2021",
       amount: 2500,
-      icon: '/icons/ipaypal_icon.svg',
+      icon: "/icons/recentTransaction/ipaypal_icon.svg",
       bgColor: "bg-blue-50",
     },
     {
@@ -35,27 +33,27 @@ const TransactionList = () => {
       name: "Jemi Wilson",
       date: "21 January 2021",
       amount: 5400,
-      icon: '/icons/dollar_icon.svg',
+      icon: "/icons/recentTransaction/dollar_icon.svg",
       bgColor: "bg-cyan-50",
     },
   ];
 
   const renderIcon = (transaction: Transaction) => {
-    if (typeof transaction.icon === 'string') {
+    if (typeof transaction.icon === "string") {
       return <Image src={transaction.icon} alt="" width={24} height={24} />;
     }
     return transaction.icon;
   };
 
   return (
-    <div className="w-full p-4 space-y-4">
+    <div className="w-full p-3 space-y-3">
       {transactions.map((transaction) => (
         <div
           key={transaction.id}
-          className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 border-b pb-3 last:border-none"
+          className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 border-b pb-3 last:border-none"
         >
           <div
-            className={`p-5 rounded-full ${transaction.bgColor} flex items-center justify-center`}
+            className={`p-3 rounded-full ${transaction.bgColor} flex items-center justify-center`}
             aria-label={`${transaction.name} icon`}
           >
             {renderIcon(transaction)}
@@ -67,7 +65,6 @@ const TransactionList = () => {
             </p>
             <p className="text-xs text-gray-500">{transaction.date}</p>
           </div>
-
           <span
             className={`text-sm font-medium ${
               transaction.amount < 0 ? "text-red-600" : "text-green-600"

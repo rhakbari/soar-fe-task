@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Pencil } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import Image from 'next/image'
+import Image from "next/image";
 const EditProfilePage = () => {
   const { toast } = useToast();
   const handleSubmit = () => {
@@ -51,8 +51,8 @@ const EditProfilePage = () => {
                 src="/pfp_pic.jpeg"
                 alt="Profile"
                 className="w-full h-full object-cover object-top"
-                width={20}
-                height={20}
+                width={500}
+                height={500}
               />
             </Avatar>
             <Button

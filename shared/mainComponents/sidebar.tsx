@@ -1,15 +1,4 @@
 import React from "react";
-import {
-  LayoutDashboard,
-  ArrowLeftRight,
-  User,
-  BarChart3,
-  CreditCard,
-  Banknote,
-  Settings,
-  Star,
-  Wrench,
-} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
@@ -18,21 +7,53 @@ const Sidebar = ({ isOpen, setIsOpen }: any) => {
   const router = useRouter();
   const pathname = usePathname();
   const menuItems = [
-    { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
-    { icon: ArrowLeftRight, label: "Transactions", path: "/transactions" },
-    { icon: User, label: "Accounts", path: "/accounts" },
-    { icon: BarChart3, label: "Investments", path: "/investments" },
-    { icon: CreditCard, label: "Credit Cards", path: "/creditCards" },
-    { icon: Banknote, label: "Loans", path: "/loans" },
-    { icon: Wrench, label: "Services", path: "/services" },
-    { icon: Star, label: "My Privileges", path: "/privilages" },
-    { icon: Settings, label: "Settings", path: "/settings" },
+    {
+      icon: "/icons/sidebar/dashboard.svg",
+      label: "Dashboard",
+      path: "/dashboard",
+    },
+    {
+      icon: "/icons/sidebar/transactions.svg",
+      label: "Transactions",
+      path: "/transactions",
+    },
+    {
+      icon: "/icons/sidebar/account.svg",
+      label: "Accounts",
+      path: "/accounts",
+    },
+    {
+      icon: "/icons/sidebar/investment.svg",
+      label: "Investments",
+      path: "/investments",
+    },
+    {
+      icon: "/icons/sidebar/credit-cards.svg",
+      label: "Credit Cards",
+      path: "/creditCards",
+    },
+    { icon: "/icons/sidebar/loans.svg", label: "Loans", path: "/loans" },
+    {
+      icon: "/icons/sidebar/services.svg",
+      label: "Services",
+      path: "/services",
+    },
+    {
+      icon: "/icons/sidebar/privileges.svg",
+      label: "My Privileges",
+      path: "/privilages",
+    },
+    {
+      icon: "/icons/sidebar/settings.svg",
+      label: "Settings",
+      path: "/settings",
+    },
   ];
 
   const handleNavigation = (path: string) => {
-    router.push(path); // Navigate to the given path
+    router.push(path);
     if (isOpen) {
-      setIsOpen(false); // Close the sidebar when a menu item is clicked (on mobile)
+      setIsOpen(false);
     }
   };
 
@@ -67,7 +88,7 @@ const Sidebar = ({ isOpen, setIsOpen }: any) => {
           <div className="p-6 flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl flex items-center justify-center">
               <Image
-                src="/icons/task-fill-icon.svg"
+                src="/task-fill-icon.svg"
                 alt="Soar-icon"
                 className="w-full h-full object-cover object-top"
                 width={30}
@@ -79,19 +100,32 @@ const Sidebar = ({ isOpen, setIsOpen }: any) => {
 
           <nav className="px-4">
             {menuItems.map((item, index) => {
-              const Icon = item.icon;
+              const isActive = pathname === item.path;
+
               return (
                 <div
                   key={index}
                   className={`flex items-center px-4 py-3 rounded-xl cursor-pointer mb-2
-                  ${
-                    pathname === item.path
-                      ? "bg-[#F8F9FD] text-[#404B7C]"
-                      : "text-gray-400 hover:bg-gray-50"
-                  }`}
+                    ${
+                      isActive
+                        ? "bg-[#F8F9FD] text-[#404B7C]"
+                        : "text-gray-400 hover:bg-gray-50"
+                    }`}
+                  // className={`flex items-center px-4 py-3 rounded-xl cursor-pointer mb-2
+                  // ${
+                  //   pathname === item.path
+                  //     ? "bg-[#F8F9FD] text-[#404B7C]"
+                  //     : "text-gray-400 hover:bg-gray-50"
+                  // }`}
                   onClick={() => handleNavigation(item.path)}
                 >
-                  <Icon className="h-5 w-5" />
+                  <img
+                    src={item.icon}
+                    width={20}
+                    height={20}
+                    alt={item.label}
+                    className={isActive ? "filter invert" : "filter-none"} // Apply dark effect on active
+                  />
                   <span className="ml-3 font-medium">{item.label}</span>
                 </div>
               );
