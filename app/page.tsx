@@ -148,8 +148,8 @@ const LoginPage = () => {
             </CardContent>
             <CardFooter className="flex flex-wrap items-center justify-between gap-2">
               <div className="text-sm text-muted-foreground">
-                <span>Don't have an account? </span>
-                <Button
+              <span>Don&apos;t have an account? </span>
+              <Button
                   variant="link"
                   className="p-0 h-auto"
                   onClick={() => console.log("Sign up clicked")}
