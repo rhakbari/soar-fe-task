@@ -3,6 +3,7 @@ import "./globals.css";
 import React, { Suspense, useState } from "react";
 import Loader from "@/shared/mainComponents/loader";
 import { Toaster } from "@/components/ui/toaster";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const Sidebar = React.lazy(() => import("@/shared/mainComponents/sidebar"));
 const Header = React.lazy(() => import("@/shared/mainComponents/header"));
@@ -35,6 +36,7 @@ export default function RootLayout({
             <main className="p-6 mt-16">
               {children}
               <Toaster />
+              <SpeedInsights/>
             </main>
           </div>
         </div>
