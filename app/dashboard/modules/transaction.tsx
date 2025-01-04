@@ -1,7 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
-
+import { useAppDispatch, useAppSelector } from '../../../store/hook';
+import { fetchTransactions, selectAllTransactions } from '../../../store/dashboard/transaction';
 interface Transaction {
   id: number;
   name: string;
@@ -11,22 +12,15 @@ interface Transaction {
   bgColor: string;
 }
 
+
+
 const TransactionList = () => {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const dispatch = useAppDispatch();
+  const transactions = useAppSelector(selectAllTransactions);
 
   useEffect(() => {
-    const fetchTransactions = async () => {
-      try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/transactions`);
-        const data = await response.json();
-        setTransactions(data);
-      } catch (error) {
-        console.error("Error fetching transactions:", error);
-      }
-    };
-
-    fetchTransactions();
-  }, []);
+      dispatch(fetchTransactions());
+  }, [dispatch]);
 
   const renderIcon = (transaction: Transaction) => {
     if (typeof transaction.icon === "string") {
@@ -35,9 +29,17 @@ const TransactionList = () => {
     return transaction.icon;
   };
 
+  if (status === 'loading') {
+    return <div className="w-full p-3">Loading transactions...</div>;
+  }
+
+  if (status === 'failed') {
+    return <div className="w-full p-3">Error loading transactions. Please try again later.</div>;
+  }
+
   return (
     <div className="w-full p-3 space-y-3">
-      {transactions.map((transaction) => (
+      {transactions.map((transaction: Transaction) => (
         <div
           key={transaction.id}
           className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 border-b pb-3 last:border-none"

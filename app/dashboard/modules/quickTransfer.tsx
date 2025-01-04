@@ -41,17 +41,12 @@ const QuickTransfer = () => {
 
     setIsLoading(true);
     try {
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
       toast({
         title: "Transfer Successful",
         description: `$${amount} has been sent successfully`,
         variant: "default",
       });
-      
-      // Optionally reset the amount or perform other actions
-      // setAmount("");
     } catch (error) {
       console.error('error on quick transfer => ',error)
       toast({

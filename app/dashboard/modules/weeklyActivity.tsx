@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   Chart as ChartJS,
   Tooltip,
@@ -8,11 +8,17 @@ import {
   LinearScale,
   BarElement,
   Title,
-  ChartData,
   ChartOptions,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import Loader from "@/shared/mainComponents/loader";
+import {
+  selectChartData,
+  selectChartIsLoading,
+  selectChartError,
+  fetchWeeklyActivity,
+} from "@/store/dashboard/weeklyActivity";
+import { useAppDispatch, useAppSelector } from "@/store/hook";
 
 ChartJS.register(
   CategoryScale,
@@ -23,50 +29,16 @@ ChartJS.register(
   Legend
 );
 
-// Define interfaces for API response
-interface ApiResponse {
-  labels: string[];
-  datasets: {
-    label: string;
-    data: number[];
-    backgroundColor: string;
-    borderColor: string;
-    borderWidth: number;
-    borderRadius: number;
-    borderSkipped: boolean;
-  }[];
-}
-
 const WeeklyActivityChart = () => {
-  const [chartData, setChartData] = useState<ChartData<
-    "bar",
-    number[],
-    string
-  > | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
+  const chartData = useAppSelector(selectChartData);
+  const isLoading = useAppSelector(selectChartIsLoading);
+  const error = useAppSelector(selectChartError);
   const chartRef = useRef<ChartJS<"bar">>(null);
 
   useEffect(() => {
-    const fetchActivityData = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/weekly-activity`);
-        if (!response.ok) { 
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data: ApiResponse = await response.json();
-        setChartData(data);
-      } catch (err) {
-        console.error('Failed to fetch activity data:', err);
-        setError(err instanceof Error ? err.message : 'Failed to fetch data');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchActivityData();
-  }, []);
+    dispatch(fetchWeeklyActivity());
+  }, [dispatch]);
 
   if (isLoading) {
     return (

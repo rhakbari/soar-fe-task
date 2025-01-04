@@ -4,13 +4,13 @@ import React, { Suspense, useState } from "react";
 import { usePathname } from "next/navigation";
 import Loader from "@/shared/mainComponents/loader";
 import { Toaster } from "@/components/ui/toaster";
-import { SpeedInsights } from '@vercel/speed-insights/next';
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { ReduxProvider } from "@/store/provider";
 
 const Sidebar = React.lazy(() => import("@/shared/mainComponents/sidebar"));
 const Header = React.lazy(() => import("@/shared/mainComponents/header"));
 
-// Define routes where we don't want to show navigation
-const publicRoutes = ['/', '/login', '/signup', '/forgot-password'];
+const publicRoutes = ["/", "/login", "/signup", "/forgot-password"];
 
 export default function RootLayout({
   children,
@@ -19,8 +19,6 @@ export default function RootLayout({
 }>) {
   const [isOpen, setIsOpen] = useState(true);
   const pathname = usePathname();
-  
-  // Check if current route is a public route
   const isPublicRoute = publicRoutes.includes(pathname);
 
   return (
@@ -30,14 +28,12 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen bg-[#F8F9FD] font-sans">
         {isPublicRoute ? (
-          // Public routes - render without navigation
           <main className="min-h-screen">
             {children}
             <Toaster />
-            <SpeedInsights/>
+            <SpeedInsights />
           </main>
         ) : (
-          // Protected routes - render with navigation
           <div className="flex min-h-screen bg-[#F8F9FD] font-sans">
             <Suspense fallback={<Loader />}>
               <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
@@ -51,9 +47,9 @@ export default function RootLayout({
               </div>
 
               <main className="p-6 mt-16">
-                {children}
                 <Toaster />
-                <SpeedInsights/>
+                <ReduxProvider>{children}</ReduxProvider>
+                <SpeedInsights />
               </main>
             </div>
           </div>
