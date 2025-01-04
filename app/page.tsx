@@ -14,21 +14,70 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Github, Mail, Rocket } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const LoginPage = () => {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("demo_account@soar.inc");
+  const [password, setPassword] = useState("demo123");
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+    general: ""
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const validateForm = () => {
+    const newErrors = {
+      email: "",
+      password: "",
+      general: ""
+    };
+
+    if (!email) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+
+    if (!password) {
+      newErrors.password = "Password is required";
+    } else if (password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+
+    setErrors(newErrors);
+    return !newErrors.email && !newErrors.password;
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Login attempted with:", { email, password });
+    setIsSubmitting(true);
+
+    if (!validateForm()) {
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // If login is successful, navigate to dashboard
+      router.push("/dashboard");
+    } catch (error) {
+      setErrors({
+        ...errors,
+        general: "Failed to sign in. Please check your credentials."
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="min-h-screen w-full bg-gray-50">
-      {/* Header Section */}
-      <div className="w-full  bg-white shadow-sm">
+      <div className="w-full bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex justify-center items-center gap-2">
             <Rocket className="h-8 w-8 text-primary" />
@@ -37,10 +86,9 @@ const LoginPage = () => {
         </div>
       </div>
 
-      {/* Login Card Section */}
       <div className="w-full flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-md">
-          <Card className="w-full">
+          <Card>
             <CardHeader className="space-y-1">
               <CardTitle className="text-2xl font-bold text-center">
                 Welcome back
@@ -50,35 +98,11 @@ const LoginPage = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Button
-                  variant="outline"
-                  className="w-full"
-                  onClick={() => console.log("GitHub login")}
-                >
-                  <Github className="mr-2 h-4 w-4" />
-                  Continue with GitHub
-                </Button>
-                <Button
-                  variant="outline"
-                  className="w-full"
-                  onClick={() => console.log("Google login")}
-                >
-                  <Mail className="mr-2 h-4 w-4" />
-                  Continue with Google
-                </Button>
-              </div>
-
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <Separator className="w-full" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">
-                    Or continue with
-                  </span>
-                </div>
-              </div>
+              {errors.general && (
+                <Alert variant="destructive">
+                  <AlertDescription>{errors.general}</AlertDescription>
+                </Alert>
+              )}
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
@@ -88,9 +112,16 @@ const LoginPage = () => {
                     type="email"
                     placeholder="m@example.com"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      if (errors.email) setErrors({ ...errors, email: "" });
+                    }}
+                    className={errors.email ? "border-red-500" : ""}
                     required
                   />
+                  {errors.email && (
+                    <p className="text-sm text-red-500">{errors.email}</p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="password">Password</Label>
@@ -98,22 +129,29 @@ const LoginPage = () => {
                     id="password"
                     type="password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      if (errors.password) setErrors({ ...errors, password: "" });
+                    }}
+                    className={errors.password ? "border-red-500" : ""}
                     required
                   />
+                  {errors.password && (
+                    <p className="text-sm text-red-500">{errors.password}</p>
+                  )}
                 </div>
                 <Button
                   type="submit"
                   className="w-full"
-                  onClick={() => router.push("/dashboard")}
+                  disabled={isSubmitting}
                 >
-                  Sign In
+                  {isSubmitting ? "Signing in..." : "Sign In"}
                 </Button>
               </form>
             </CardContent>
             <CardFooter className="flex flex-wrap items-center justify-between gap-2">
               <div className="text-sm text-muted-foreground">
-                <span>Don&apos;t have an account? </span>
+                <span>Don't have an account? </span>
                 <Button
                   variant="link"
                   className="p-0 h-auto"
