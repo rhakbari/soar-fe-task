@@ -11,8 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { Github, Mail, Rocket } from "lucide-react";
+import { Rocket } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
@@ -60,15 +59,13 @@ const LoginPage = () => {
     }
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // If login is successful, navigate to dashboard
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       router.push("/dashboard");
     } catch (error) {
+      console.log("error login =>", error);
       setErrors({
         ...errors,
-        general: "Failed to sign in. Please check your credentials."
+        general: "Failed to sign in. Please check your credentials.",
       });
     } finally {
       setIsSubmitting(false);
