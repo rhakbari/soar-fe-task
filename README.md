@@ -48,6 +48,6 @@ To get started with the project, follow the steps below:
    npm run start
    ```
    
-4. **Access it on your browser**
+5. **Access it on your browser**
 
    Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
