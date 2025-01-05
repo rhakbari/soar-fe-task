@@ -144,8 +144,8 @@ const QuickTransfer = () => {
             onClick={handleSend}
             disabled={isLoading}
             className="bg-black text-white rounded-full px-3 h-10 flex items-center 
-                     absolute top-1/2 right-1 sm:right-[-16px] transform -translate-y-1/2 z-10 
-                     disabled:opacity-70 text-xs sm:text-sm"
+             absolute top-1/2 right-1 sm:right-[-16px] transform -translate-y-1/2 z-10 
+             text-xs sm:text-sm hover:bg-gray-500 disabled:bg-gray-300 disabled:text-gray-500"
           >
             {isLoading ? "Sending..." : "Send"}
             {!isLoading && <Send className="ml-2 h-3 w-3 sm:h-4 sm:w-4" />}
