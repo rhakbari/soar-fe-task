@@ -6,6 +6,11 @@ import { useRouter } from "next/navigation";
 import ExpenseChart from "@/app/dashboard/modules/expenseChart";
 import QuickTransfer from "./modules/quickTransfer";
 import BalanceHistory from "./modules/balanceHistory";
+import { useAppDispatch, useAppSelector } from "@/store/hook";
+import {
+  fetchCreditCards,
+  selectCreditCards,
+} from "@/store/dashboard/creditCard";
 
 const CreditCard = lazy(() => import("@/app/dashboard/modules/creditCard"));
 const WeeklyActivity = lazy(
@@ -29,26 +34,20 @@ interface CreditCardData {
 
 const Dashboard = () => {
   const router = useRouter();
-  const [cardData, setCardData] = useState<CreditCardData[]>([]); 
+  const dispatch = useAppDispatch();
+  const { data: cardData, isLoading } = useAppSelector(selectCreditCards);
+
+  const [hasInitialized, setHasInitialized] = useState(false);
 
   useEffect(() => {
-    const fetchCardData = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_ENDPOINT}/credit-card`
-        );
-        const data = await response.json();
-        setCardData(data); 
-      } catch (error) {
-        console.error("Error fetching credit card data:", error);
-      }
-    };
+    if (!hasInitialized) {
+      dispatch(fetchCreditCards());
+      setHasInitialized(true);
+    }
+  }, [dispatch, hasInitialized]);
 
-    fetchCardData();
-  }, []);
-
-  if (!cardData) {
-    return <div>Loading...</div>;
+  if (isLoading && !cardData) {
+    return <LoadingSkeleton />;
   }
 
   return (
