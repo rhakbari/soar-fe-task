@@ -1,7 +1,8 @@
 # Soar Task (Banking Dashboard)
 
 Live project [Soar Task](https://rhakbari-soar-task.vercel.app/)
-## Getting Started
+
+### Getting Started
 
 To get started with the project, follow the steps below:
 
@@ -11,13 +12,15 @@ To get started with the project, follow the steps below:
    ```bash
    npm install
    ```
+   
 2. **Run the development server**
    Start the development server using the following command:
 
-```bash
-npm run dev
-```
+   ```bash
+   npm run dev
+   ```
+   
 3. Access it on your browser
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+   Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
