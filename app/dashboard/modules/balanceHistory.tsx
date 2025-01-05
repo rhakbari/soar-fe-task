@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -11,7 +11,6 @@ import {
   Title,
   Tooltip,
   Legend,
-  ChartData,
 } from "chart.js";
 import { selectBalanceHistoryData, selectBalanceHistoryStatus, selectBalanceHistoryError, fetchBalanceHistory } from "@/store/dashboard/balanceHistory";
 import { AppDispatch } from "@/store/store";
@@ -27,16 +26,6 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-
-interface CurveLineChartData extends ChartData {
-  labels: string[];  // Assuming labels are strings
-  datasets: {
-    label: string;
-    data: number[];
-    borderColor: string;
-    backgroundColor: string;
-  }[];
-}
 
 const BalanceHistory = () => {
   const dispatch = useDispatch<AppDispatch>();
