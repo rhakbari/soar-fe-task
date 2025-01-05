@@ -111,12 +111,6 @@ const Sidebar = ({ isOpen, setIsOpen }: any) => {
                         ? "bg-[#F8F9FD] text-[#404B7C]"
                         : "text-gray-400 hover:bg-gray-50"
                     }`}
-                  // className={`flex items-center px-4 py-3 rounded-xl cursor-pointer mb-2
-                  // ${
-                  //   pathname === item.path
-                  //     ? "bg-[#F8F9FD] text-[#404B7C]"
-                  //     : "text-gray-400 hover:bg-gray-50"
-                  // }`}
                   onClick={() => handleNavigation(item.path)}
                 >
                   <img

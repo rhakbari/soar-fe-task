@@ -61,9 +61,14 @@ const Dashboard = () => {
               backgroundColor="bg-transparent"
               onSeeAllClick={() => router.push("/creditCards")}
             >
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div
+                className="grid gap-4"
+                style={{
+                  gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+                }}
+              >
                 {cardData.map((item: CreditCardData, id: number) => (
-                  <div key={id} className="w-full sm:w-1/2">
+                  <div key={id}>
                     <CreditCard
                       cardNumber={item.cardNumber}
                       expiry={item.expiry}

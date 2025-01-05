@@ -11,10 +11,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Rocket } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-
+import Image from "next/image";
 const LoginPage = () => {
   const router = useRouter();
   const [email, setEmail] = useState("demo_account@soar.inc");
@@ -22,7 +21,7 @@ const LoginPage = () => {
   const [errors, setErrors] = useState({
     email: "",
     password: "",
-    general: ""
+    general: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -30,7 +29,7 @@ const LoginPage = () => {
     const newErrors = {
       email: "",
       password: "",
-      general: ""
+      general: "",
     };
 
     if (!email) {
@@ -77,7 +76,13 @@ const LoginPage = () => {
       <div className="w-full bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex justify-center items-center gap-2">
-            <Rocket className="h-8 w-8 text-primary" />
+            <Image
+              src="/task-fill-icon.svg"
+              alt="Soar-icon"
+              className="w-10 h-10 object-cover object-top"
+              width={30}
+              height={30}
+            />
             <span className="text-2xl font-bold text-primary">Soar Task</span>
           </div>
         </div>
@@ -128,7 +133,8 @@ const LoginPage = () => {
                     value={password}
                     onChange={(e) => {
                       setPassword(e.target.value);
-                      if (errors.password) setErrors({ ...errors, password: "" });
+                      if (errors.password)
+                        setErrors({ ...errors, password: "" });
                     }}
                     className={errors.password ? "border-red-500" : ""}
                     required
@@ -148,8 +154,8 @@ const LoginPage = () => {
             </CardContent>
             <CardFooter className="flex flex-wrap items-center justify-between gap-2">
               <div className="text-sm text-muted-foreground">
-              <span>Don&apos;t have an account? </span>
-              <Button
+                <span>Don&apos;t have an account? </span>
+                <Button
                   variant="link"
                   className="p-0 h-auto"
                   onClick={() => console.log("Sign up clicked")}
