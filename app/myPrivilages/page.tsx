@@ -1,8 +1,8 @@
 import ComingSoonPage from "@/shared/customComponents/comingSoon";
 import React from "react";
 
-const Transactions = () => {
+const Privilages = () => {
   return <ComingSoonPage />;
 };
 
-export default Transactions;
+export default Privilages;

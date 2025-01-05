@@ -39,7 +39,6 @@ export const fetchCreditCards = createAsyncThunk<
   {
     condition: (_, { getState }) => {
       const { creditCards } = getState();
-      // Only fetch if not already initialized and not currently loading
       return !creditCards.initialized && !creditCards.isLoading;
     },
   }

@@ -1,9 +1,9 @@
+import ComingSoonPage from '@/shared/customComponents/comingSoon'
 import React from 'react'
 
 const Loans = () => {
-  return (
-    <div>Loans</div>
-  )
+  return <ComingSoonPage/>
+
 }
 
 export default Loans

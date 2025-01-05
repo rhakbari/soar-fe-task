@@ -1,11 +1,11 @@
 "use client";
-import React, { useState, useCallback, useMemo, memo } from "react";
+import React, { useState, useCallback, useMemo, memo, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar } from "@/components/ui/avatar";
 import { Label } from "@/components/ui/label";
-import { Pencil } from "lucide-react";
+import { Pencil, Upload } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
@@ -35,65 +35,150 @@ interface FormFieldProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const FormField = memo(({ id, label, type = "text", value, error, onChange }: FormFieldProps) => (
-  <div>
-    <Label htmlFor={id} className="text-sm text-gray-600 mb-1.5 block">
-      {label}
-    </Label>
-    <Input
-      id={id}
-      type={type}
-      value={value}
-      onChange={onChange}
-      className={`border-gray-200 rounded-lg ${error ? 'border-red-500' : ''}`}
-    />
-    {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
-  </div>
-));
-
-FormField.displayName = 'FormField';
-
-const ProfileAvatar = memo(() => (
-  <div className="relative inline-block">
-    <Avatar className="h-24 w-24">
-      <Image
-        src="/pfp_pic.jpeg"
-        alt="Profile"
-        className="w-full h-full object-cover object-top"
-        width={500}
-        height={500}
+const FormField = memo(
+  ({ id, label, type = "text", value, error, onChange }: FormFieldProps) => (
+    <div>
+      <Label htmlFor={id} className="text-sm text-gray-600 mb-1.5 block">
+        {label}
+      </Label>
+      <Input
+        id={id}
+        type={type}
+        value={value}
+        onChange={onChange}
+        className={`border-gray-200 rounded-lg ${
+          error ? "border-red-500" : ""
+        }`}
       />
-    </Avatar>
-    <Button
-      variant="outline"
-      size="icon"
-      className="absolute bottom-0 right-0 h-6 w-6 rounded-full p-0 border-gray-200 bg-white"
-    >
-      <Pencil className="h-3 w-3" />
-    </Button>
-  </div>
-));
+      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+    </div>
+  )
+);
 
-ProfileAvatar.displayName = 'ProfileAvatar';
+FormField.displayName = "FormField";
+
+const ProfileAvatar = memo(() => {
+  const [imageUrl, setImageUrl] = useState("/pfp_pic.jpeg");
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
+
+  const handleImageClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        toast({
+          title: "File too large",
+          description: "Please select an image under 5MB",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      if (!file.type.startsWith('image/')) {
+        toast({
+          title: "Invalid file type",
+          description: "Please select an image file",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      setIsUploading(true);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageUrl(reader.result as string);
+        setIsUploading(false);
+        toast({
+          title: "Profile picture updated",
+          description: "Your profile picture has been updated successfully",
+          variant: "default",
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  return (
+    <div className="relative inline-block group">
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleImageChange}
+        accept="image/*"
+        className="hidden"
+      />
+      <div className="relative">
+        <Avatar className="h-24 w-24 cursor-pointer transition-opacity duration-200 group-hover:opacity-75">
+          <Image
+            src={imageUrl}
+            alt="Profile"
+            className="w-full h-full object-cover object-top"
+            width={500}
+            height={500}
+          />
+          {isUploading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full">
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+            </div>
+          )}
+        </Avatar>
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={handleImageClick}
+          className="absolute bottom-0 right-0 h-6 w-6 rounded-full p-0 border-gray-200 bg-white hover:bg-gray-100"
+        >
+          <Upload className="h-3 w-3" />
+        </Button>
+      </div>
+    </div>
+  );
+});
 
 const validationRules = {
-  name: (value: string) => !value.trim() ? "Name is required" : value.length < 2 ? "Name must be at least 2 characters" : "",
-  username: (value: string) => !value.trim() ? "Username is required" : value.length < 3 ? "Username must be at least 3 characters" : "",
+  name: (value: string) =>
+    !value.trim()
+      ? "Name is required"
+      : value.length < 2
+      ? "Name must be at least 2 characters"
+      : "",
+  username: (value: string) =>
+    !value.trim()
+      ? "Username is required"
+      : value.length < 3
+      ? "Username must be at least 3 characters"
+      : "",
   email: (value: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return !value.trim() ? "Email is required" : !emailRegex.test(value) ? "Please enter a valid email" : "";
+    return !value.trim()
+      ? "Email is required"
+      : !emailRegex.test(value)
+      ? "Please enter a valid email"
+      : "";
   },
-  password: (value: string) => value !== "********" && value.length < 8 ? "Password must be at least 8 characters" : "",
+  password: (value: string) =>
+    value !== "********" && value.length < 8
+      ? "Password must be at least 8 characters"
+      : "",
   postalCode: (value: string) => {
     const postalCodeRegex = /^\d{5}(-\d{4})?$/;
-    return !value.trim() ? "Postal code is required" : !postalCodeRegex.test(value) ? "Please enter a valid postal code" : "";
-  }
+    return !value.trim()
+      ? "Postal code is required"
+      : !postalCodeRegex.test(value)
+      ? "Please enter a valid postal code"
+      : "";
+  },
 };
 
 const EditProfilePage = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   const [formData, setFormData] = useState<FormData>({
     name: "Charlene Reed",
     username: "Charlene Reed",
@@ -104,55 +189,59 @@ const EditProfilePage = () => {
     permanentAddress: "San Jose, California, USA",
     city: "San Jose",
     postalCode: "45962",
-    country: "USA"
+    country: "USA",
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
 
-  const validateForm = useMemo(() => () => {
-    const newErrors: FormErrors = {};
+  const validateForm = useMemo(
+    () => () => {
+      const newErrors: FormErrors = {};
 
-    Object.entries(validationRules).forEach(([field, rule]) => {
-      const error = rule(formData[field as keyof FormData]);
-      if (error) newErrors[field] = error;
-    });
+      Object.entries(validationRules).forEach(([field, rule]) => {
+        const error = rule(formData[field as keyof FormData]);
+        if (error) newErrors[field] = error;
+      });
 
-    // Additional required field validations
-    ['dob', 'presentAddress', 'city', 'country'].forEach(field => {
-      if (!formData[field as keyof FormData].trim()) {
-        newErrors[field] = `${field.charAt(0).toUpperCase() + field.slice(1)} is required`;
-      }
-    });
+      ["dob", "presentAddress", "city", "country"].forEach((field) => {
+        if (!formData[field as keyof FormData].trim()) {
+          newErrors[field] = `${
+            field.charAt(0).toUpperCase() + field.slice(1)
+          } is required`;
+        }
+      });
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  }, [formData]);
+      setErrors(newErrors);
+      return Object.keys(newErrors).length === 0;
+    },
+    [formData]
+  );
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [id]: value
+      [id]: value,
     }));
-    setErrors(prev => ({
+    setErrors((prev) => ({
       ...prev,
-      [id]: ""
+      [id]: "",
     }));
   }, []);
 
   const handleSubmit = useCallback(async () => {
     setIsSubmitting(true);
-    
+
     if (validateForm()) {
       try {
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 1000));
         toast({
           title: "Profile Updated",
           description: "Your changes have been saved successfully.",
           variant: "default",
         });
       } catch (error) {
-        console.error('error on saving settings => ',error)
+        console.error("error on saving settings => ", error);
 
         toast({
           title: "Error",
@@ -167,22 +256,25 @@ const EditProfilePage = () => {
         variant: "destructive",
       });
     }
-    
+
     setIsSubmitting(false);
   }, [validateForm, toast]);
 
-  const formFields = useMemo(() => [
-    { id: 'name', label: 'Your Name' },
-    { id: 'username', label: 'User Name' },
-    { id: 'email', label: 'Email', type: 'email' },
-    { id: 'password', label: 'Password', type: 'password' },
-    { id: 'dob', label: 'Date of Birth' },
-    { id: 'presentAddress', label: 'Present Address' },
-    { id: 'permanentAddress', label: 'Permanent Address' },
-    { id: 'city', label: 'City' },
-    { id: 'postalCode', label: 'Postal Code' },
-    { id: 'country', label: 'Country' }
-  ], []);
+  const formFields = useMemo(
+    () => [
+      { id: "name", label: "Your Name" },
+      { id: "username", label: "User Name" },
+      { id: "email", label: "Email", type: "email" },
+      { id: "password", label: "Password", type: "password" },
+      { id: "dob", label: "Date of Birth" },
+      { id: "presentAddress", label: "Present Address" },
+      { id: "permanentAddress", label: "Permanent Address" },
+      { id: "city", label: "City" },
+      { id: "postalCode", label: "Postal Code" },
+      { id: "country", label: "Country" },
+    ],
+    []
+  );
 
   return (
     <Card className="min-h-fit rounded-3xl bg-[#fff]">
@@ -229,8 +321,8 @@ const EditProfilePage = () => {
         </div>
 
         <div className="mt-8 flex justify-end">
-          <Button 
-            variant="default" 
+          <Button
+            variant="default"
             onClick={handleSubmit}
             disabled={isSubmitting}
           >

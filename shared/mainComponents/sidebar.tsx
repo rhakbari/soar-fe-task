@@ -41,7 +41,7 @@ const Sidebar = ({ isOpen, setIsOpen }: any) => {
     {
       icon: "/icons/sidebar/privileges.svg",
       label: "My Privileges",
-      path: "/privilages",
+      path: "/myPrivilages",
     },
     {
       icon: "/icons/sidebar/settings.svg",
@@ -118,7 +118,7 @@ const Sidebar = ({ isOpen, setIsOpen }: any) => {
                     width={20}
                     height={20}
                     alt={item.label}
-                    className={isActive ? "filter invert" : "filter-none"} // Apply dark effect on active
+                    className={isActive ? "filter invert" : "filter-none"}
                   />
                   <span className="ml-3 font-medium">{item.label}</span>
                 </div>

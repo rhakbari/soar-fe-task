@@ -9,7 +9,6 @@ import { ReduxProvider } from "@/store/provider";
 
 const Sidebar = React.lazy(() => import("@/shared/mainComponents/sidebar"));
 const Header = React.lazy(() => import("@/shared/mainComponents/header"));
-
 const publicRoutes = ["/", "/login", "/signup", "/forgot-password"];
 
 export default function RootLayout({

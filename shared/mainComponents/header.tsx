@@ -15,9 +15,13 @@ const Header: React.FC<HeaderProps> = ({ isOpen, setIsOpen }) => {
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const pathname = usePathname() || "/dashboard";
   const formattedSegments = pathname
-    .split("/")
-    .filter((segment) => segment)
-    .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1));
+  .split("/")
+  .filter((segment) => segment)
+  .map((segment) => {
+    const formattedSegment = segment.replace(/([a-z])([A-Z])/g, '$1 $2');
+    return formattedSegment.charAt(0).toUpperCase() + formattedSegment.slice(1);
+  });
+
 
   const currentTitle =
     formattedSegments.length === 0 ||

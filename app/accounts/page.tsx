@@ -1,7 +1,8 @@
+import ComingSoonPage from "@/shared/customComponents/comingSoon";
 import React from "react";
 
 const Accounts = () => {
-  return <div>Accounts</div>;
+  return <ComingSoonPage/>
 };
 
 export default Accounts;

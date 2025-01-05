@@ -49,7 +49,6 @@ export const fetchBalanceHistory = createAsyncThunk<
   {
     condition: (_, { getState }) => {
       const { balanceHistory } = getState();
-      // Only fetch if not already initialized and not currently loading
       return !balanceHistory.initialized && balanceHistory.status !== "loading";
     },
   }

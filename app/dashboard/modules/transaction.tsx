@@ -1,8 +1,11 @@
 "use client";
 import React, { useEffect } from "react";
 import Image from "next/image";
-import { useAppDispatch, useAppSelector } from '../../../store/hook';
-import { fetchTransactions, selectAllTransactions } from '../../../store/dashboard/transaction';
+import { useAppDispatch, useAppSelector } from "../../../store/hook";
+import {
+  fetchTransactions,
+  selectAllTransactions,
+} from "../../../store/dashboard/transaction";
 interface Transaction {
   id: number;
   name: string;
@@ -12,14 +15,12 @@ interface Transaction {
   bgColor: string;
 }
 
-
-
 const TransactionList = () => {
   const dispatch = useAppDispatch();
   const transactions = useAppSelector(selectAllTransactions);
 
   useEffect(() => {
-      dispatch(fetchTransactions());
+    dispatch(fetchTransactions());
   }, [dispatch]);
 
   const renderIcon = (transaction: Transaction) => {
@@ -28,14 +29,6 @@ const TransactionList = () => {
     }
     return transaction.icon;
   };
-
-  if (status === 'loading') {
-    return <div className="w-full p-3">Loading transactions...</div>;
-  }
-
-  if (status === 'failed') {
-    return <div className="w-full p-3">Error loading transactions. Please try again later.</div>;
-  }
 
   return (
     <div className="w-full p-3 space-y-3">

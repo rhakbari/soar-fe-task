@@ -1,7 +1,8 @@
+import ComingSoonPage from "@/shared/customComponents/comingSoon";
 import React from "react";
 
 const CreditCards = () => {
-  return <div>Credit Cards</div>;
+  return <ComingSoonPage/>
 };
 
 export default CreditCards;

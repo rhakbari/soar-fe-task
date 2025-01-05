@@ -1,9 +1,9 @@
+import ComingSoonPage from '@/shared/customComponents/comingSoon'
 import React from 'react'
 
 const Services = () => {
-  return (
-    <div>Services</div>
-  )
+  return <ComingSoonPage/>
+
 }
 
 export default Services
