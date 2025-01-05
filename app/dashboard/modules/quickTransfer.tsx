@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { ChevronRight, ChevronLeft, Send } from "lucide-react";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
 import { useToast } from "@/hooks/use-toast";
@@ -62,17 +61,20 @@ const QuickTransfer = () => {
 
   const nextPage = () => {
     if ((currentPage + 1) * 3 < recipients.length) {
-      setCurrentPage(prev => prev + 1);
+      setCurrentPage((prev) => prev + 1);
     }
   };
 
   const prevPage = () => {
     if (currentPage > 0) {
-      setCurrentPage(prev => prev - 1);
+      setCurrentPage((prev) => prev - 1);
     }
   };
 
-  const visibleRecipients = recipients.slice(currentPage * 3, (currentPage + 1) * 3);
+  const visibleRecipients = recipients.slice(
+    currentPage * 3,
+    (currentPage + 1) * 3
+  );
   const canGoNext = (currentPage + 1) * 3 < recipients.length;
   const canGoPrev = currentPage > 0;
 
@@ -80,9 +82,11 @@ const QuickTransfer = () => {
     <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="mb-6 sm:mb-8">
         <div className="flex items-center justify-center gap-2 sm:gap-4">
-          <button 
-            onClick={prevPage} 
-            className={`${!canGoPrev ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}`}
+          <button
+            onClick={prevPage}
+            className={`${
+              !canGoPrev ? "opacity-30 cursor-not-allowed" : "cursor-pointer"
+            }`}
             disabled={!canGoPrev}
           >
             <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
@@ -112,9 +116,11 @@ const QuickTransfer = () => {
             ))}
           </div>
 
-          <button 
+          <button
             onClick={nextPage}
-            className={`${!canGoNext ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}`}
+            className={`${
+              !canGoNext ? "opacity-30 cursor-not-allowed" : "cursor-pointer"
+            }`}
             disabled={!canGoNext}
           >
             <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />

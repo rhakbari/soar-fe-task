@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar } from "@/components/ui/avatar";
 import { Label } from "@/components/ui/label";
-import { Pencil, Upload } from "lucide-react";
+import { Upload } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
@@ -70,7 +70,8 @@ const ProfileAvatar = memo(() => {
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+      if (file.size > 5 * 1024 * 1024) {
+        // 5MB limit
         toast({
           title: "File too large",
           description: "Please select an image under 5MB",
@@ -79,7 +80,7 @@ const ProfileAvatar = memo(() => {
         return;
       }
 
-      if (!file.type.startsWith('image/')) {
+      if (!file.type.startsWith("image/")) {
         toast({
           title: "Invalid file type",
           description: "Please select an image file",
@@ -139,6 +140,8 @@ const ProfileAvatar = memo(() => {
     </div>
   );
 });
+
+ProfileAvatar.displayName = "ProfileAvatar";
 
 const validationRules = {
   name: (value: string) =>
