@@ -58,3 +58,6 @@ To get started with the project, follow the steps below:
 6. **Access it on your browser**
 
     Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+
+## This Repo is using **NEXT_PUBLIC_ENDPOINT** as **Environment Variable** so kindly use this variable in your .env file.
