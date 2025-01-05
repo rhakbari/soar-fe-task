@@ -1,6 +1,8 @@
 # Soar Task (Banking Dashboard)
 
-Live project [Soar Task](https://rhakbari-soar-task.vercel.app/)
+Live project [Soar Task](https://rhakbari-soar-task.vercel.app/) 
+
+**Note:** The Mock APIs used in this live link are deployed on a free render.com server that may take around 30-60 sec time to load on first load as the server becomes inactive due to inactivity. Once its active the API response will be fast.
 
 ### Getting Started
 
