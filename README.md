@@ -20,7 +20,7 @@ To get started with the project, follow the steps below:
    npm run dev
    ```
    
-3. Access it on your browser
+3. **Access it on your browser**
 
    Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
@@ -45,8 +45,9 @@ To get started with the project, follow the steps below:
    Start the service using the following command:
 
    ```bash
-   npm run build
+   npm run start
    ```
-4. Access it on your browser
+   
+4. **Access it on your browser**
 
    Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
