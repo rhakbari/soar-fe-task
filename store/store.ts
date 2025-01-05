@@ -1,12 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
 import weeklyActivity from "./dashboard/weeklyActivity";
-import transactionsReducer from "./dashboard/transaction";
-import creditCards from './dashboard/creditCard'
+import transactions from "./dashboard/transaction";
+import creditCards from "./dashboard/creditCard";
+import balanceHistory from "./dashboard/balanceHistory";
+import expense from "./dashboard/expenseChart";
+
 export const store = configureStore({
   reducer: {
     weeklyActivity,
-    transactions: transactionsReducer,
+    transactions,
     creditCards,
+    balanceHistory,
+    expense,
   },
 });
 

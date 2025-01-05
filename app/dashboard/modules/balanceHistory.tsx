@@ -13,6 +13,9 @@ import {
   Legend,
   ChartData,
 } from "chart.js";
+import { selectBalanceHistoryData, selectBalanceHistoryStatus, selectBalanceHistoryError, fetchBalanceHistory } from "@/store/dashboard/balanceHistory";
+import { AppDispatch } from "@/store/store";
+import { useDispatch, useSelector } from "react-redux";
 
 // Registering the necessary components for Chart.js
 ChartJS.register(
@@ -36,28 +39,27 @@ interface CurveLineChartData extends ChartData {
 }
 
 const BalanceHistory = () => {
-  const [data, setData] = useState<CurveLineChartData | null>(null); 
+  const dispatch = useDispatch<AppDispatch>();
+  const data = useSelector(selectBalanceHistoryData);
+  const status = useSelector(selectBalanceHistoryStatus);
+  const error = useSelector(selectBalanceHistoryError);
 
   useEffect(() => {
-    const fetchCurveLineData = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_ENDPOINT}/balance-history`
-        );
+    dispatch(fetchBalanceHistory());
+  }, [dispatch]);
 
-        const data = await response.json();
-        setData(data); // Set the fetched data into state
-      } catch (error) {
-        console.error("Error fetching curve line data:", error);
-      }
-    };
-
-    fetchCurveLineData();
-  }, []);
-
-  if (!data) {
+  if (status === "loading") {
     return <div>Loading...</div>;
   }
+
+  if (status === "failed") {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!data) {
+    return null;
+  }
+
 
   const options = {
     responsive: true,
